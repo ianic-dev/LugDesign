@@ -44,7 +44,7 @@ class LugConfig:
         writepath = "lugconfig/"+ filename
         writepath = Path(writepath)
         config_dict: dict = vars(self)
-        config_df: pd.DataFrame = pd.DataFrame.from_dict(config_dict, orient='index', columns=['Value'])
+        config_df: pd.DataFrame = pd.DataFrame.from_dict(config_dict, orient='index', columns=['Values (all in base SI units)'])
         config_df.to_csv(writepath)
 
 
