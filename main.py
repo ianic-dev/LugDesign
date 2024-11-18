@@ -11,6 +11,6 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('hm, is the setup done correctly?') # ls
+    print_hi('hm, is the setup done correctly?')  # ls
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
