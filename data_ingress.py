@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import math as m
 from pathlib import Path
 
@@ -44,6 +43,7 @@ class LugConfig:
         writepath = "lugconfig/"+ filename
         writepath = Path(writepath)
         config_dict: dict = vars(self)
+        # the following line may be indicated as an error, it isn't, it just works
         config_df: pd.DataFrame = pd.DataFrame.from_dict(config_dict, orient='index', columns=['Values (all in base SI units)'])
         config_df.to_csv(writepath)
 
