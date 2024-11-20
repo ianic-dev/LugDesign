@@ -29,7 +29,13 @@ class MaterialProperties:
 
 
 class LugConfig:
-    def __init__(self, d1: float, d2: float, h: float, w: float, t1: float, t2: float, t3: float) -> None:
+    def __init__(self, d1, d2: float=0, h: float=0, w: float=0, t1: float=0, t2: float=0, t3: float=0) -> None:
+        '''
+        creates a LugConfig from either a file, taking d1 as string (name of the config),
+        or all values for the config specified as float.
+        '''
+        if isinstance(d1, str):
+            (d1, d2, h, w, t1, t2, t3) = self.from_csv(d1)
         self.pin_diameter = d1
         self.bolt_diameter = d2
         self.inter_flange_width = h
@@ -38,6 +44,12 @@ class LugConfig:
         self.base_thickness = t2
         self.spacecraft_thickness = t3
 
+    def from_csv(self, name: str="unnamed") -> list:
+        configpath = Path("lugconfig/config_" + name + ".csv")
+        config = pd.read_csv(configpath).to_numpy()
+        lugconfig = [config[0, 1], config[1, 1], config[2, 1], config[3, 1], config[4, 1], config[5, 1], config[6, 1]]
+        return lugconfig
+    
     def to_csv(self, name: str="unnamed") -> None:
         filename = "config_" + name + ".csv"
         writepath = "lugconfig/"+ filename
@@ -48,9 +60,4 @@ class LugConfig:
         config_df.to_csv(writepath)
 
 
-def read_lugconfig_from_csv(name: str="unnamed") -> LugConfig:
-    configpath = Path("lugconfig/config_" + name + ".csv")
-    config = pd.read_csv(configpath).to_numpy()
-    lugconfig = LugConfig(config[0, 1], config[1, 1], config[2, 1], config[3, 1], config[4, 1], config[5, 1], config[6, 1])
-    return lugconfig
 
