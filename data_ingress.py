@@ -54,3 +54,15 @@ def read_lugconfig_from_csv(name: str="unnamed") -> LugConfig:
     lugconfig = LugConfig(config[0, 1], config[1, 1], config[2, 1], config[3, 1], config[4, 1], config[5, 1], config[6, 1])
     return lugconfig
 
+class BackplateConfig:
+    #pos_holes - 2D array storing x and z positions of the holes (in that respective order)
+    def __init__(self, n: int,pos_holes):
+        self.n=n
+        self.pos_holes=pos_holes
+    def compute_cg(self,lugconfig: LugConfig):
+        for i in range(len(self.pos_holes)):
+            x_cg+=self.pos_holes[i][0]*lugconfig.pin_diameter
+            z_cg+=self.pos_holes[i][1]*lugconfig.pin_diameter
+        x_cg=x_cg/(self.n*lugconfig.pin_diameter)
+        z_cg=z_cg/(self.n*lugconfig.pin_diameter)
+        
