@@ -1,5 +1,10 @@
 
-def stress_conc_factor_kt(w_over_d: float, curve_number: int) -> float:
+def stress_conc_factor_kt(flange_height: float, pin_diameter, curve_number: int) -> float:
+    """
+    a Margin of Safety of 0.15 should be used
+    values should only be used at room temperature but they're the ones we've got so we're using them
+    """
+    w_over_d = flange_height/pin_diameter
     if w_over_d < 1:
         raise ValueError("w_over_d must be at least 1")
     if curve_number == 1:
@@ -114,6 +119,18 @@ def stress_conc_factor_kt(w_over_d: float, curve_number: int) -> float:
     else:
         raise ValueError("w_over_d is outside acceptable range")
     return kt
+
+def shear_bearing_efficiency_kbr(flange_height: float, pin_diameter: float, flange_thickness: float) -> float:
+    """
+    when using aluminium material and a lug thickness of 0.0127 m or greater, no kbr greater than 2.0 should be used
+    a Margin of Safety of 0.15 should be used
+    values should only be used at room temperature but they're the ones we've got so we're using them
+    """
+    e_over_d = (flange_height/2)/pin_diameter
+    d_over_t = pin_diameter/flange_thickness
+    kbr = 0
+
+    return kbr
 
 
         
