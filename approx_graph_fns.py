@@ -1,3 +1,4 @@
+import math as m
 
 def stress_conc_factor_kt(flange_height: float, pin_diameter, curve_number: int) -> float:
     """
@@ -120,6 +121,15 @@ def stress_conc_factor_kt(flange_height: float, pin_diameter, curve_number: int)
         raise ValueError("w_over_d is outside acceptable range")
     return kt
 
+def shear_log_fn_1(e_over_d: float) -> float:
+    return 2.045*m.log(e_over_d+0.5)
+
+def shear_log_fn_2(e_over_d: float, e_over_d_start: float) -> float:
+    return e_over_d_start*m.log(e_over_d+0.5)**0.5
+
+def shear_e_over_d_start(d_over_t: float) -> float:
+    return (0.400750643199986*(d_over_t+1)/2 - 0.2282651)**(-2) + 0.5
+
 def shear_bearing_efficiency_kbr(flange_height: float, pin_diameter: float, flange_thickness: float) -> float:
     """
     when using aluminium material and a lug thickness of 0.0127 m or greater, no kbr greater than 2.0 should be used
@@ -128,8 +138,13 @@ def shear_bearing_efficiency_kbr(flange_height: float, pin_diameter: float, flan
     """
     e_over_d = (flange_height/2)/pin_diameter
     d_over_t = pin_diameter/flange_thickness
-    kbr = 0
-
+    e_over_d_start = shear_e_over_d_start(d_over_t)
+    if 0.5 <= e_over_d and e_over_d <= e_over_d_start:
+        kbr = shear_log_fn_1(e_over_d)
+    elif e_over_d_start < e_over_d and e_over_d <= 4:
+        kbr = shear_log_fn_2(e_over_d, e_over_d_start) - shear_log_fn_2(e_over_d_start, e_over_d_start) + shear_log_fn_1(e_over_d_start)
+    else:
+        raise ValueError("(flange_height/2)/pin_diameter should be between 0.5 and 4")
     return kbr
 
 
