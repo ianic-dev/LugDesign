@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from data_ingress import LoadCase, MaterialProperties, LugConfig
 
+
 def print_hi(name):
     print(f'Hi, {name}')
 
