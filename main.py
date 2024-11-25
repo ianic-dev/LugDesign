@@ -1,4 +1,5 @@
-from data_ingress import LoadCase, MaterialProperties, LugConfig, read_lugconfig_from_csv, BackplatePins
+#!/usr/bin/python
+from data_ingress import LoadCase, MaterialProperties, LugConfig
 
 def print_hi(name):
     print(f'Hi, {name}')
