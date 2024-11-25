@@ -9,7 +9,7 @@ if __name__ == '__main__':
     forces = LoadCase(1,1,1,1,1,1)
     test_lugconfig.to_csv("test")
     read_lugconfig_from_csv("test")
-    pos_holes=[[3,1],[2,2],[-1,-1],[-2,-2]]
+    pos_holes=[[1,1],[1,-1],[-1,-1],[0,0]]
     backplate=BackplatePins(4,pos_holes)
     cg=backplate.compute_cg(test_lugconfig)
     

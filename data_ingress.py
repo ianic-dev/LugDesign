@@ -71,6 +71,7 @@ class BackplatePins:
         x_cg=x_cg/(self.n*lugconfig.pin_diameter)
         z_cg=z_cg/(self.n*lugconfig.pin_diameter)
         cg=[x_cg,z_cg]
+        return cg
         
         
     def compute_xz_hole_force(self,cg,lugconfig: LugConfig,loadcase: LoadCase):
@@ -79,14 +80,14 @@ class BackplatePins:
         m_y_cg=-loadcase.force_x*cg[1]+loadcase.force_z*cg[0]
         xz_forces=[]
         D=0
-        hole_area=(lugconfig.d2())^2*(m.pi()*0.25)
+        hole_area=((lugconfig.bolt_diameter)**2)*(m.pi*0.25)
         for i in range(len(self.pos_holes)):
-            D+=hole_area*(self.pos_holes[i][0]^2+self.pos_holes[i][1]^2)
+            D+=hole_area*((self.pos_holes[i][0]**2)+(self.pos_holes[i][1]**2))
         for i in range(len(self.pos_holes)):
-            x_prime=self.pos_holes[i]-cg[0]
-            z_prime=self.pos_holes[i]-cg[1]
+            x_prime=self.pos_holes[i][0]-cg[0]
+            z_prime=self.pos_holes[i][1]-cg[1]
             alpha=np.arctan2(z_prime,x_prime)
-            fx=loadcase.force_x/self.n+((m_y_cg*hole_area*m.sqrt(self.pos_holes[i][0]^2+self.pos_holes[i][1]^2))/D)*np.cos(alpha-m.pi/2)
-            fz=loadcase.force_z/self.n+((m_y_cg*hole_area*m.sqrt(self.pos_holes[i][0]^2+self.pos_holes[i][1]^2))/D)*np.cos(alpha-m.pi/2)
+            fx=(loadcase.force_x/self.n)+((m_y_cg*hole_area*m.sqrt(self.pos_holes[i][0]**2+self.pos_holes[i][1]**2))/D)*np.cos(alpha-m.pi/2)
+            fz=(loadcase.force_z/self.n)+((m_y_cg*hole_area*m.sqrt(self.pos_holes[i][0]**2+self.pos_holes[i][1]**2))/D)*np.cos(alpha-m.pi/2)
             xz_forces.append([fx,fz])
         return xz_forces
