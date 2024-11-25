@@ -9,8 +9,9 @@ if __name__ == '__main__':
     forces = LoadCase(1,1,1,1,1,1)
     test_lugconfig.to_csv("test")
     read_lugconfig_from_csv("test")
-    pos_holes=[[1,1],[1,-1],[-1,-1],[0,0]]
-    backplate=BackplatePins(4,pos_holes)
+    pos_holes=[[2,1],[1,-1],[-1,-1]]
+    backplate=BackplatePins(3,pos_holes)
     cg=backplate.compute_cg(test_lugconfig)
     
+print(cg)
 print(backplate.compute_xz_hole_force(cg,test_lugconfig,forces))
