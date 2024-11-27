@@ -80,4 +80,15 @@ class BackplatePins:
 
 
 
+    def bearing_check_thermal_included(self,xz_forces,lugconfig: LugConfig,thickness,sigma_allowable,thermal_force):
+        for i in range(len(self.pos_holes)):
+            p=m.sqrt(xz_forces[i][0]**2+xz_forces[i][1]**2)+thermal_force
+            sigma=p/(lugconfig.bolt_diameter*thickness)
+            print("The bearing stress at hole: " + str(i) + " is "+ str(sigma))
+            if abs(sigma)>=0.9*sigma_allowable:
+                print("Bearing stress exceeded at hole: "+ str(i))
+
+
+
+
             
