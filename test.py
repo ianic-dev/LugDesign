@@ -1,5 +1,5 @@
 #!/usr/bin/python
 from data_ingress import MaterialProperties
 
-mat = MaterialProperties(1, 72e9, 420e6, True, 490e6, 2, 11)
-mat.to_csv("2014-T6")
+mat = MaterialProperties(0, 2e11, 0, True, 0, 0, 0, 13e-6)
+mat.to_csv("fastener")

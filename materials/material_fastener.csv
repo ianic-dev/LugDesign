@@ -1,0 +1,9 @@
+,Values (all in base SI units)
+density,0
+elasticity_modulus,200000000000.0
+yield_stress,0
+ismetal,True
+ultimate_tensile_str,0.0
+axial_curve_number,0
+transverse_curve_number,0
+thermal_coeff,1.3e-05

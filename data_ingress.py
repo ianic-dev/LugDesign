@@ -36,23 +36,24 @@ class LoadCase:
 
 
 class MaterialProperties:
-    def __init__(self, density, elasticity_modulus: float = 1, yield_stress: float = 1, metal: bool = True, ultimate_stress: float = 1, curve_n: float = 1, transverse_n: float = 1) -> None:
+    def __init__(self, density, elasticity_modulus: float = 0, yield_stress: float = 0, metal: bool = True, ultimate_stress: float = 0, curve_n: float = 0, transverse_n: float = 0, thermal_coeff: float = 0) -> None:
         if isinstance(density, str):
             (density, elasticity_modulus, yield_stress, metal,
-             ultimate_stress, curve_n) = self.from_csv(density)
+             ultimate_stress, curve_n, thermal_coeff) = self.from_csv(density)
         self.density: float = density
-        self.elasticity_modulus: float = elasticity_modulus
+        self.elasticity_modulus: float = float(elasticity_modulus)
         self.yield_stress: float = yield_stress
         self.ismetal: bool = metal
         self.ultimate_tensile_str: float = float(ultimate_stress)
         self.axial_curve_number: int = int(curve_n)
         self.transverse_curve_number: int = int(transverse_n)
+        self.thermal_coeff = float(thermal_coeff)
 
     def from_csv(self, name: str = "unnamed") -> list:
         materialpath = Path("materials/material_" + name + ".csv")
         material = pd.read_csv(materialpath).to_numpy()
         material = [material[0, 1], material[1, 1], material[2, 1],
-                    material[3, 1], material[4, 1], material[5, 1]]
+                    material[3, 1], material[4, 1], material[5, 1], material[6, 1]]
         return material
 
     def to_csv(self, name: str = "unnamed") -> None:
@@ -99,44 +100,9 @@ class LugConfig:
             config_dict, orient='index', columns=['Values (all in base SI units)'])
         config_df.to_csv(writepath)
 
-
-class BackplatePins:
-    # pos_holes - 2D array storing x and z positions of the holes (in that respective order)
-    def __init__(self, n: int, pos_holes):
-        self.n = n
-        self.pos_holes = pos_holes
-
-    def compute_cg(self, lugconfig: LugConfig):
-        # this method computes the x and z location of the cg of the backplate pin holes
-        x_cg = 0
-        z_cg = 0
-        hole_area = ((lugconfig.bolt_diameter)**2)*(m.pi*0.25)
-        for i in range(len(self.pos_holes)):
-            x_cg += self.pos_holes[i][0]*hole_area
-            z_cg += self.pos_holes[i][1]*hole_area
-        x_cg = x_cg/(self.n*hole_area)
-        z_cg = z_cg/(self.n*hole_area)
-        cg = [x_cg, z_cg]
-        return cg
-
-    def compute_xz_hole_force(self, cg, lugconfig: LugConfig, loadcase: LoadCase):
-        # D is the denominator of the experssion, which is the sum of Ai*ri^2 for all holes
-        # the x_prime and y_prime are coordinates of a given hole in the coord. centered at C.G.
-        m_y_cg = -loadcase.force_x*cg[1]+loadcase.force_z*cg[0]
-        xz_forces = []
-        D = 0
-        hole_area = ((lugconfig.bolt_diameter)**2)*(m.pi*0.25)
-        for i in range(len(self.pos_holes)):
-            x_prime = self.pos_holes[i][0]-cg[0]
-            z_prime = self.pos_holes[i][1]-cg[1]
-            D += hole_area*((x_prime**2)+(z_prime**2))
-        for i in range(len(self.pos_holes)):
-            x_prime = self.pos_holes[i][0]-cg[0]
-            z_prime = self.pos_holes[i][1]-cg[1]
-            alpha = np.arctan2(z_prime, x_prime)
-            fx = (loadcase.force_x/self.n)+((m_y_cg*hole_area *
-                                             m.sqrt(x_prime**2+z_prime**2))/D)*np.cos(alpha-m.pi/2)
-            fz = (loadcase.force_z/self.n)+((m_y_cg*hole_area *
-                                             m.sqrt(x_prime**2+z_prime**2))/D)*np.sin(alpha-m.pi/2)
-            xz_forces.append([fx, fz])
-        return xz_forces
+class FastenerConfig:
+    def __init__(self, lugconfig: LugConfig, length, head_d, butt_d) -> None:
+        self.length = length
+        self.head_diam = head_d
+        self.butt_diam = butt_d
+        self.area = (0.5 * lugconfig.bolt_diameter)**2 * m.pi
