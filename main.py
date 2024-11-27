@@ -50,21 +50,22 @@ if __name__ == '__main__':
 
 
     #compute the thermal shit
-    phi_backplate=fastener.force_ratio(test_lugconfig.flange_thickness,young_modul_backplate,young_modul_fastener,fastener_diam_head,test_lugconfig.bolt_diameter,length_fastener/area_fastener)
+    phi_backplate=fastener.force_ratio(test_lugconfig.base_thickness,young_modul_backplate,young_modul_fastener,fastener_diam_head,test_lugconfig.bolt_diameter,length_fastener/area_fastener)
     phi_vehicle=fastener.force_ratio(test_lugconfig.spacecraft_thickness,young_modul_vehicle,young_modul_fastener,fastener_diam_butt,test_lugconfig.bolt_diameter,length_fastener/area_fastener)
 
     thermal_load_backplate_maxT=(thermal_coeff_backplate-thermal_coeff_bolt)*delta_T_max*young_modul_fastener*area_fastener*(1-phi_backplate)
     thermal_load_vehicle_maxT=(thermal_coeff_vehicle-thermal_coeff_bolt)*delta_T_max*young_modul_fastener*area_fastener*(1-phi_vehicle)
     
     
-    print(thermal_coeff_backplate)
-    print(delta_T_max)
-    print(young_modul_fastener)
-    print(area_fastener)
-    print(area_fastener)
-    print(phi_backplate)
     print(thermal_load_backplate_maxT)
     print(thermal_load_vehicle_maxT)
+    # print(delta_T_max)
+    # print(young_modul_fastener)
+    # print(area_fastener)
+    # print(area_fastener)
+    # print(phi_backplate)
+    # print(thermal_load_backplate_maxT)
+    
 
 
 
