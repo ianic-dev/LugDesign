@@ -23,12 +23,20 @@ class LoadCase:
 
 
 class MaterialProperties:
-    def __init__(self, density: float, elasticity_modulus: float, yield_stress: float, metal: bool) -> None:
+    def __init__(self, density, elasticity_modulus: float, yield_stress: float, metal: bool, UTS: float, curve_n: float) -> None:
+        if isinstance(density, str):
+            (density, elasticity_modulus, yield_stress, metal, UTS, curve_n) = self.from_csv(density)
         self.density = density
         self.elasticity_modulus = elasticity_modulus
         self.yield_stress = yield_stress
         self.ismetal = metal
-
+        self.ultimate_tensile_str = UTS
+        self.axial_curve_number = int(curve_n)
+    def from_csv(self, name: str="unnamed") -> list:
+        materialpath = Path("materials/material_" + name + ".csv")
+        material = pd.read_csv(materialpath).to_numpy()
+        material = [material[0, 1], material[1, 1], material[2, 1], material[3, 1], material[4, 1], material[5, 1]]
+        return material
 
 class LugConfig:
     def __init__(self, d1, d2: float=0, h: float=0, w: float=0, t1: float=0, t2: float=0, t3: float=0) -> None:
