@@ -14,12 +14,25 @@ class LoadCase:
         self.force_z = f_z  # vertical force, aligned with thrust direction
         self.moment_z = m_z  # moment around thrust vector axis 
 #        self.yz_resultant = "N/A"  # not assigned yet
+        self.y_resultant = "guh"
     
     def yz_plane_load(self, vert_spacing: float) -> float:
         moment_induced_y_load = self.moment_x/vert_spacing
+        self.y_resultant = moment_induced_y_load + self.force_y
         total_y_load = moment_induced_y_load + self.force_y
         self.yz_resultant = m.sqrt(total_y_load**2 + self.force_z**2)
         return(self.yz_resultant) # absolute value of either "F1" in the diagram
+
+    @property
+    def y_resultant(self) -> float:
+        if isinstance(self._y_resultant, str):
+            raise RuntimeError("the yz_plane_load function needs to be called at least once before accessing this field")
+        return self._y_resultant
+    
+    @y_resultant.setter
+    def y_resultant(self, value):
+        self._y_resultant = value
+
 
 
 class MaterialProperties:
@@ -37,6 +50,15 @@ class MaterialProperties:
         material = pd.read_csv(materialpath).to_numpy()
         material = [material[0, 1], material[1, 1], material[2, 1], material[3, 1], material[4, 1], material[5, 1]]
         return material
+
+    def to_csv(self, name: str="unnamed") -> None:
+        filename = "material" + name + ".csv"
+        writepath = "materials/"+ filename
+        writepath = Path(writepath)
+        config_dict: dict = vars(self)
+        # the following line may be indicated as an error, it isn't, it just works
+        config_df: pd.DataFrame = pd.DataFrame.from_dict(config_dict, orient='index', columns=['Values (all in base SI units)'])
+        config_df.to_csv(writepath)
 
 class LugConfig:
     def __init__(self, d1, d2: float=0, h: float=0, w: float=0, t1: float=0, t2: float=0, t3: float=0) -> None:
