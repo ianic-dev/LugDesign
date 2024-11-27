@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     #define all your variables here
     test_lugconfig = LugConfig(1,0.008, 1, 1, 1, 0.005, 0.005)
-    forces = LoadCase(0,0,-44.818,1,153.036,0)
+    forces = LoadCase(0,0,-44.818,1,600,0)
     pos_holes=[[0.02,0],[-0.02,0]]
     backplate=BackplatePins(2,pos_holes)
     length_fastener=0.0112
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     thermal_load_backplate_maxT=(thermal_coeff_backplate-thermal_coeff_bolt)*delta_T_max*young_modul_fastener*area_fastener*(1-phi_backplate)
     thermal_load_vehicle_maxT=(thermal_coeff_vehicle-thermal_coeff_bolt)*delta_T_max*young_modul_fastener*area_fastener*(1-phi_vehicle)
     
-    
+
     print(thermal_load_backplate_maxT)
     print(thermal_load_vehicle_maxT)
     # print(delta_T_max)
@@ -88,4 +88,14 @@ if __name__ == '__main__':
     #bearing check for vehicle plate
     print("BEARING CHECK FOR VEHICLE")
     print(backplate.bearing_check(backplate.compute_xz_hole_force(cg,test_lugconfig,forces),test_lugconfig,test_lugconfig.spacecraft_thickness,sigma_yield_SC))
+    print("")
+
+    #bearing check for backplate with thermal
+    print("BEARING CHECK FOR BACKPLATE WITH THERMAL LOADS")
+    print(backplate.bearing_check_thermal_included(backplate.compute_xz_hole_force(cg,test_lugconfig,forces),test_lugconfig,test_lugconfig.base_thickness,sigma_yield_flange,thermal_load_backplate_maxT))
+    print("")
+
+    #bearing check for vehicle plate with thermal
+    print("BEARING CHECK FOR VEHICLE WITH THERMAL LOADS")
+    print(backplate.bearing_check_thermal_included(backplate.compute_xz_hole_force(cg,test_lugconfig,forces),test_lugconfig,test_lugconfig.spacecraft_thickness,sigma_yield_SC,thermal_load_vehicle_maxT))
     print("")
