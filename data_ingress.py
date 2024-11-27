@@ -12,7 +12,7 @@ class LoadCase:
         self.force_y = f_y  # force aligned with solar panel length axis
         self.moment_y = m_y  # torque around solar panel length axis
         self.force_z = f_z  # vertical force, aligned with thrust direction
-        self.moment_z = m_z  # moment around thrust vector axis
+        self.moment_z = m_z  # moment around thrust vector axis 
 #        self.yz_resultant = "N/A"  # not assigned yet
     
     def yz_plane_load(self, vert_spacing: float) -> float:
