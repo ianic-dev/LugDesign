@@ -149,5 +149,32 @@ def shear_bearing_efficiency_kbr(flange_height: float, pin_diameter: float, flan
 
 # comment for test
 
+def shear_bearing_e_over_d_start_kbry(t_over_d: float) -> float:
+    return 21500.38+(0.314156-21500.3)/(1+(t_over_d/41045540)**0.5233358)
+
+def shear_bearing_limit_val(t_over_d: float) -> float:
+    return 1.849053 + (0.3369587-1.849053)/(1+(t_over_d/0.07228626)**1.2511)
+
+def shear_bearing_kbry_1(e_over_d: float) -> float:
+    return 1.6340213154 + (1.6340213154/(0.304+1))*(0.01167113 - (1.345744+0.01167113)/(1+((e_over_d-0.304+0.06)/0.7242017)**2.897432))
+
+def shear_bearing_kbry_2(e_over_d: float, limitval: float, t_over_d: float) -> float:
+    return limitval + (limitval/(t_over_d+1)*(0.01167113-(1.345744+0.01167113)/(1+((e_over_d-t_over_d+0.06)/0.7242017)**2.897432)))
+
+def shear_bearing_efficiency_kbry(flange_height: float, pin_diameter: float, flange_thickness: float) -> float:
+    e_over_d = (flange_height/2)/pin_diameter
+    t_over_d = flange_thickness/pin_diameter
+    limitval = shear_bearing_limit_val(t_over_d)
+    e_over_d_start = shear_bearing_e_over_d_start_kbry(t_over_d)
+    if 0.5 <= e_over_d and e_over_d < e_over_d_start:
+        kbry = shear_bearing_kbry_1(e_over_d)
+    elif e_over_d >= e_over_d_start:
+        kbry = shear_bearing_kbry_2(e_over_d, limitval, t_over_d)
+    else:
+        raise ValueError("e/D must be at least 0.5")
+    print("e_over_d", e_over_d, "t_over_d", t_over_d, "xstart", e_over_d_start)
+    return kbry
+
+
 
         
