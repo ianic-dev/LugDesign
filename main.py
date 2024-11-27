@@ -11,10 +11,10 @@ def print_hi(name):
 if __name__ == '__main__':
 
     #define all your variables here
-    test_lugconfig = LugConfig(1,0.012, 1, 1, 1, 0.01, 0.0012)
+    test_lugconfig = LugConfig(1,0.008, 1, 1, 1, 0.005, 0.005)
     forces = LoadCase(0,0,-44.818,1,153.036,0)
-    pos_holes=[[0.02,0.02],[0.02,-0.02],[-0.02,0.02],[-0.02,-0.02]]
-    backplate=BackplatePins(4,pos_holes)
+    pos_holes=[[0.02,0],[-0.02,0]]
+    backplate=BackplatePins(2,pos_holes)
     length_fastener=0.0112
     area_fastener=fastener.fastener_area(test_lugconfig.bolt_diameter)
     fastener_diam_head=0.019
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     #pull out check for backplate
     print("PULL OUT CHECK FOR BACKPLATE")
-    print(backplate.pull_out_check(backplate.compute_y_hole_force(cg,test_lugconfig,forces),test_lugconfig.flange_thickness,fastener_diam_head,sigma_yield_flange))
+    print(backplate.pull_out_check(backplate.compute_y_hole_force(cg,test_lugconfig,forces),test_lugconfig.base_thickness,fastener_diam_head,sigma_yield_flange))
     print("")
 
     #pull out check for vehicle plate
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
     #bearing check for backplate
     print("BEARING CHECK FOR BACKPLATE")
-    print(backplate.bearing_check(backplate.compute_xz_hole_force(cg,test_lugconfig,forces),test_lugconfig,test_lugconfig.flange_thickness,sigma_yield_flange))
+    print(backplate.bearing_check(backplate.compute_xz_hole_force(cg,test_lugconfig,forces),test_lugconfig,test_lugconfig.base_thickness,sigma_yield_flange))
     print("")
 
     #bearing check for vehicle plate
