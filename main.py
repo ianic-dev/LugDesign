@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from data_ingress import LoadCase, MaterialProperties, LugConfig
 from backplate import BackplatePins
+from flange_reqs import evaluate_flange
 import fastener
 
 
@@ -11,7 +12,8 @@ def print_hi(name):
 if __name__ == '__main__':
 
     #define all your variables here
-    test_lugconfig = LugConfig(1,0.012, 1, 1, 1, 0.01, 0.0012)
+    lug_spacing = 0.3
+    test_lugconfig = LugConfig("test")
     forces = LoadCase(0,0,-44.818,1,153.036,0)
     pos_holes=[[0.02,0.02],[0.02,-0.02],[-0.02,0.02],[-0.02,-0.02]]
     backplate=BackplatePins(4,pos_holes)
@@ -29,6 +31,14 @@ if __name__ == '__main__':
     thermal_coeff_bolt=13*(10**(-6))
     delta_T_max=95
     delta_T_min=-120
+
+    lug_material = MaterialProperties("2014-T6")
+    assert isinstance(lug_material.ultimate_tensile_str, float)
+
+
+    forces.yz_plane_load(lug_spacing)
+
+    flange_safety_margin = evaluate_flange(test_lugconfig, lug_material, forces)
 
 
 

@@ -36,15 +36,16 @@ class LoadCase:
 
 
 class MaterialProperties:
-    def __init__(self, density, elasticity_modulus: float, yield_stress: float, metal: bool, UTS: float, curve_n: float) -> None:
+    def __init__(self, density, elasticity_modulus: float=1, yield_stress: float=1, metal: bool=True, ultimate_stress: float=1, curve_n: float=1, transverse_n: float=1) -> None:
         if isinstance(density, str):
-            (density, elasticity_modulus, yield_stress, metal, UTS, curve_n) = self.from_csv(density)
-        self.density = density
-        self.elasticity_modulus = elasticity_modulus
-        self.yield_stress = yield_stress
-        self.ismetal = metal
-        self.ultimate_tensile_str = UTS
-        self.axial_curve_number = int(curve_n)
+            (density, elasticity_modulus, yield_stress, metal, ultimate_stress, curve_n) = self.from_csv(density)
+        self.density: float = density
+        self.elasticity_modulus: float = elasticity_modulus
+        self.yield_stress: float = yield_stress
+        self.ismetal: bool = metal
+        self.ultimate_tensile_str: float = float(ultimate_stress)
+        self.axial_curve_number: int = int(curve_n)
+        self.transverse_curve_number: int = int(transverse_n)
     def from_csv(self, name: str="unnamed") -> list:
         materialpath = Path("materials/material_" + name + ".csv")
         material = pd.read_csv(materialpath).to_numpy()
@@ -52,7 +53,7 @@ class MaterialProperties:
         return material
 
     def to_csv(self, name: str="unnamed") -> None:
-        filename = "material" + name + ".csv"
+        filename = "material_" + name + ".csv"
         writepath = "materials/"+ filename
         writepath = Path(writepath)
         config_dict: dict = vars(self)

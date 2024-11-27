@@ -6,9 +6,9 @@ spec_safety_margin = 0.15
 
 def net_section_tension(lugconfig: LugConfig, material: MaterialProperties) -> float:
     ultimate_tension_load_ptu = 0
-    kt = fns.stress_conc_factor_kt(lugconfig.flange_height, lugconfig.pin_diameter, material.axial_curve_number)
-    tension_area = (lugconfig.flange_height - lugconfig.pin_diameter) * lugconfig.flange_thickness
-    ultimate_tension_load_ptu = kt * material.ultimate_tensile_str * tension_area
+    kt: float = fns.stress_conc_factor_kt(lugconfig.flange_height, lugconfig.pin_diameter, material.axial_curve_number)
+    tension_area: float = (lugconfig.flange_height - lugconfig.pin_diameter) * lugconfig.flange_thickness
+    ultimate_tension_load_ptu: float = kt * material.ultimate_tensile_str * tension_area
     return ultimate_tension_load_ptu
 
 def shear_out_bearing_ultimate(lugconfig: LugConfig, material: MaterialProperties) -> float:
@@ -63,10 +63,10 @@ def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase
     transverse_ultimate_load = transverse_load_ultimate(lugconfig, material)
     print("Transverse ultimate load =", transverse_ultimate_load)
 
-    axial_ratio = loadcase.y_resultant/min(tension_ultimate_load, shear_out_ultimate_load)
+    axial_ratio = abs(loadcase.y_resultant)/min(tension_ultimate_load, shear_out_ultimate_load)
     print("Axial actual/maximum load ratio =", axial_ratio)
     
-    transverse_ratio = loadcase.force_z/transverse_ultimate_load
+    transverse_ratio = abs(loadcase.force_z)/transverse_ultimate_load
     print("Transverse actual/maximum load ratio =", transverse_ratio)
 
     safety_margin = 1/((axial_ratio**1.6 + transverse_ratio**1.6)**0.625) - 1
