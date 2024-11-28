@@ -41,19 +41,24 @@ class MaterialProperties:
             (density, elasticity_modulus, yield_stress, metal,
              ultimate_stress, curve_n, thermal_coeff) = self.from_csv(density)
         self.density: float = density
-        self.elasticity_modulus: float = float(elasticity_modulus)
+        self.elasticity_modulus: float = elasticity_modulus
         self.yield_stress: float = yield_stress
         self.ismetal: bool = metal
-        self.ultimate_tensile_str: float = float(ultimate_stress)
+        self.ultimate_tensile_str: float = ultimate_stress
         self.axial_curve_number: int = int(curve_n)
         self.transverse_curve_number: int = int(transverse_n)
-        self.thermal_coeff = float(thermal_coeff)
+        self.thermal_coeff: float = thermal_coeff
 
-    def from_csv(self, name: str = "unnamed") -> list:
+    def from_csv(self, name: str = "unnamed"):
         materialpath = Path("materials/material_" + name + ".csv")
         material = pd.read_csv(materialpath).to_numpy()
         material = [material[0, 1], material[1, 1], material[2, 1],
                     material[3, 1], material[4, 1], material[5, 1], material[6, 1]]
+        for i in range(len(material)):
+            if material[i] == "True":
+                material[i] = True
+            else:
+                material[i] = float(material[i])
         return material
 
     def to_csv(self, name: str = "unnamed") -> None:
@@ -88,6 +93,8 @@ class LugConfig:
         config = pd.read_csv(configpath).to_numpy()
         lugconfig = [config[0, 1], config[1, 1], config[2, 1],
                      config[3, 1], config[4, 1], config[5, 1], config[6, 1]]
+        for i in range(len(lugconfig)):
+            lugconfig[i] = float(lugconfig[i])
         return lugconfig
 
     def to_csv(self, name: str = "unnamed") -> None:
