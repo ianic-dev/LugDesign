@@ -55,7 +55,7 @@ class MaterialProperties:
         material = [material[0, 1], material[1, 1], material[2, 1],
                     material[3, 1], material[4, 1], material[5, 1], material[6, 1]]
         for i in range(len(material)):
-            if material[i] == "True":
+            if str(material[i]).upper() == "TRUE":
                 material[i] = True
             else:
                 material[i] = float(material[i])
