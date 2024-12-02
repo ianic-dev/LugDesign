@@ -1,0 +1,8 @@
+,Values (all in base SI units)
+density,1810
+elasticity_modulus,45000000000
+yield_stress,160000000
+ismetal,TRUE
+ultimate_tensile_str,230000000
+axial_curve_number,7
+transverse_curve_number,5
