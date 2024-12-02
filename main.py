@@ -14,18 +14,18 @@ if __name__ == '__main__':
     # define all your variables here
     lug_spacing = 0.3
     test_lugconfig = LugConfig("test")
-    print(vars(test_lugconfig))
-    forces = LoadCase(0, 0, -44.818, 1, 600, 0)
+    print("lugconfig:", vars(test_lugconfig))
+    forces = LoadCase(0, 0, -44.818, 1, 306, 0)
     pos_holes = [[0.02, 0], [-0.02, 0]]
     backplate = BackplatePins(pos_holes, test_lugconfig)
     fastener = FastenerConfig(test_lugconfig, 0.0112, 0.019, 0.019)
     delta_T_max = 95
     delta_T_min = -120
 
-    lug_material = MaterialProperties("2014-T6")
-    print(vars(lug_material))
-    sc_material = MaterialProperties("spacecraft")
-    fst_material = MaterialProperties("fastener")
+    lug_material = MaterialProperties("7075-T6")
+    print("lug material", vars(lug_material))
+    sc_material = MaterialProperties("7075-T6")
+    fst_material = MaterialProperties("7075-T6")
 
     forces.yz_plane_load(lug_spacing)
 

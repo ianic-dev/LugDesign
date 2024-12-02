@@ -21,15 +21,18 @@ def force_ratio_head(lugconfig: LugConfig, material: MaterialProperties, fst_mat
     D_fi = lugconfig.bolt_diameter
     sum_L_over_A = fastener.length/fastener.area
     delta_a = (4 * t) / (E_a * m.pi * ((D_fo ** 2) - (D_fi ** 2)))
+    print("delta_a is", delta_a)
     delta_b = (1/E_b) * sum_L_over_A
+    print("delta_b is", delta_b)
     phi = delta_a / (delta_a + delta_b)
+    print("phi is", phi)
     return phi
 
 def force_ratio_butt(lugconfig: LugConfig, material: MaterialProperties, fst_material: MaterialProperties, fastener: FastenerConfig):
     t = lugconfig.base_thickness
     E_a = float(material.elasticity_modulus)
     E_b = float(fst_material.elasticity_modulus)
-    D_fo = fastener.head_diam
+    D_fo = fastener.butt_diam
     D_fi = lugconfig.bolt_diameter
     sum_L_over_A = fastener.length/fastener.area
     delta_a = (4 * t) / (E_a * m.pi * ((D_fo ** 2) - (D_fi ** 2)))

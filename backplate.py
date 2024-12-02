@@ -6,17 +6,17 @@ import numpy as np
 def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase, fastener: FastenerConfig, lugmaterial: MaterialProperties, sc_material: MaterialProperties):
     backplate = BackplatePins(pos_holes, lugconfig)
 
-    print("\nCG LOCATION OF HOLES")
+    # print("\nCG LOCATION OF HOLES")
     cg = backplate.compute_cg(lugconfig)
-    print(cg)
+    # print(cg)
 
-    print("\nXZ FORCES FOR HOLES")
+    # print("\nXZ FORCES FOR HOLES")
     xz_forces = backplate.compute_xz_hole_force(lugconfig, loadcase)
-    print(xz_forces)
+    # print(xz_forces)
 
-    print("\nY FORCES FOR HOLES")
+    # print("\nY FORCES FOR HOLES")
     y_forces = backplate.compute_y_hole_force(lugconfig, loadcase)
-    print(y_forces)
+    # print(y_forces)
 
     # pull out check for backplate
     print("\nPULL OUT CHECK FOR BACKPLATE")
@@ -143,12 +143,20 @@ class BackplatePins:
 
 
 def evaluate_thermal(backplate: BackplatePins, lugconfig: LugConfig, lug_material: MaterialProperties, sc_material: MaterialProperties, fst_material: MaterialProperties, fastener: FastenerConfig, xz_forces, delta_T_max):
+    sanitycheck = False
 
     phi_backplate = fst.force_ratio_head(lugconfig, lug_material, fst_material, fastener)
     phi_vehicle = fst.force_ratio_butt(lugconfig, sc_material, fst_material, fastener)
 
+
     load_lug_maxT = (lug_material.thermal_coeff - fst_material.thermal_coeff) * delta_T_max * fst_material.elasticity_modulus * fastener.area * (1 - phi_backplate)
     load_sc_maxT = (sc_material.thermal_coeff - fst_material.thermal_coeff) * delta_T_max * fst_material.elasticity_modulus * fastener.area * (1 - phi_vehicle)
+    
+
+    if sanitycheck:
+        print("lug vs fastener coeff difference", (lug_material.thermal_coeff- fst_material.thermal_coeff))
+        print("sc vs fastener coeff difference", (sc_material.thermal_coeff- fst_material.thermal_coeff))
+        print("thermal load lug", load_lug_maxT)
 
     # bearing check for backplate with thermal
     print("\nBEARING CHECK FOR BACKPLATE WITH THERMAL LOADS")

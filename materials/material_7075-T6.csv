@@ -6,3 +6,4 @@ ismetal,TRUE
 tensile str,5.72E+08
 axial number,1
 transverse number,8
+thermal_coeff,23.6e-6

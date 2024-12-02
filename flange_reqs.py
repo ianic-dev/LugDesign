@@ -80,10 +80,10 @@ def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase
     safety_margin = 1/((axial_ratio**1.6 + transverse_ratio**1.6)**0.625) - 1
     if do_print:
         print("==== FLANGE EVALUATION ====\n")
-        print("Net section tension ultimate load =", tension_ultimate_load)
-        print("Shear-bearing ultimate load =", shear_out_ultimate_load)
-        print("Transverse ultimate load =", transverse_ultimate_load)
-        print("Axial actual/maximum load ratio =", axial_ratio)
-        print("Transverse actual/maximum load ratio =", transverse_ratio)
+        # print("Net section tension ultimate load =", tension_ultimate_load)
+        # print("Shear-bearing ultimate load =", shear_out_ultimate_load)
+        # print("Transverse ultimate load =", transverse_ultimate_load)
+        # print("Axial actual/maximum load ratio =", axial_ratio)
+        # print("Transverse actual/maximum load ratio =", transverse_ratio)
         print("Final oblique margin of safety =", safety_margin, "\n")
     return safety_margin
