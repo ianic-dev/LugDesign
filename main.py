@@ -15,7 +15,7 @@ if __name__ == '__main__':
     lug_spacing = 1.4
     test_lugconfig = LugConfig("iter1")
     print("lugconfig:", vars(test_lugconfig))
-    forces = LoadCase(0.005, 125.489, 0, 0, 306, 0.019)
+    forces = LoadCase(500, 425.489, 500, 0, 1500, 130)
     pos_holes = [[0.02, 0], [-0.02, 0]]
     backplate = BackplatePins(pos_holes, test_lugconfig)
     fastener = FastenerConfig(test_lugconfig, 0.0112, 0.019, 0.019)
