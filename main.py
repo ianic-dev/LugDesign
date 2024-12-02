@@ -12,10 +12,10 @@ def print_hi(name):
 if __name__ == '__main__':
 
     # define all your variables here
-    lug_spacing = 0.3
-    test_lugconfig = LugConfig("test")
+    lug_spacing = 1.4
+    test_lugconfig = LugConfig("iter1")
     print("lugconfig:", vars(test_lugconfig))
-    forces = LoadCase(0, 0, -44.818, 1, 306, 0)
+    forces = LoadCase(0.005, 125.489, 0, 0, 306, 0.019)
     pos_holes = [[0.02, 0], [-0.02, 0]]
     backplate = BackplatePins(pos_holes, test_lugconfig)
     fastener = FastenerConfig(test_lugconfig, 0.0112, 0.019, 0.019)

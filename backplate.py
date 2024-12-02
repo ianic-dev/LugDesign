@@ -10,13 +10,13 @@ def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase
     cg = backplate.compute_cg(lugconfig)
     # print(cg)
 
-    # print("\nXZ FORCES FOR HOLES")
+    print("\nXZ FORCES FOR HOLES")
     xz_forces = backplate.compute_xz_hole_force(lugconfig, loadcase)
-    # print(xz_forces)
+    print(xz_forces)
 
-    # print("\nY FORCES FOR HOLES")
+    print("\nY FORCES FOR HOLES")
     y_forces = backplate.compute_y_hole_force(lugconfig, loadcase)
-    # print(y_forces)
+    print(y_forces)
 
     # pull out check for backplate
     print("\nPULL OUT CHECK FOR BACKPLATE")
@@ -99,15 +99,19 @@ class BackplatePins:
         for i in range(len(self.pos_holes)):
             x_prime = self.pos_holes[i][0] - self.cg[0]
             z_prime = self.pos_holes[i][1] - self.cg[1]
-            fy = (loadcase.force_y / self.n) + ((loadcase.moment_z *
+            fy = (loadcase.y_resultant / self.n) + ((loadcase.moment_z *
                                                  np.sign(x_prime) * hole_area * m.sqrt(x_prime**2 + z_prime**2)) / D)
+            # print("d is ", D)
+            # print("hole area is ", hole_area)
+            # print((loadcase.moment_z * np.sign(x_prime) * hole_area * m.sqrt(x_prime**2 + z_prime**2)) / D)
             y_forces.append(fy)
         return y_forces
 
-    def pull_out_check(self, y_forces: list[float], thickness: float, bolt_diam: float, tau_allowable: float):
+    def pull_out_check(self, y_forces: list[float], thickness: float, head_diam: float, tau_allowable: float):
         tau_allowable = float(tau_allowable)
         for i in range(len(self.pos_holes)):
-            tau = (y_forces[i] / (m.pi * bolt_diam * thickness))
+            # print("Y force:", y_forces[i], "head diam:", head_diam, "thickness:", thickness)
+            tau = (y_forces[i] / (m.pi * head_diam * thickness))
             print("The pullout stress at hole:", i, "is", tau,
                   "and Von Mises stress is:", (m.sqrt(3 * tau**2)))
             if m.sqrt(3 * tau**2) >= (0.9*tau_allowable):

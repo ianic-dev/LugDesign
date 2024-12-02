@@ -75,7 +75,11 @@ def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase
     axial_ratio = abs(loadcase.y_resultant) / \
         min(tension_ultimate_load, shear_out_ultimate_load)
 
+    axial_ratio *= 1.15
+
     transverse_ratio = abs(loadcase.force_z)/transverse_ultimate_load
+
+    transverse_ratio *= 1.15
 
     safety_margin = 1/((axial_ratio**1.6 + transverse_ratio**1.6)**0.625) - 1
     if do_print:
