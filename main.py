@@ -3,7 +3,7 @@ from data_ingress import LoadCase, MaterialProperties, LugConfig, FastenerConfig
 from backplate import BackplatePins, evaluate_backplate, evaluate_thermal
 from flange_reqs import evaluate_flange
 import fastener as fst
-
+# change
 
 def print_hi(name):
     print(f'Hi, {name}')
@@ -14,6 +14,7 @@ if __name__ == '__main__':
     # define all your variables here
     lug_spacing = 0.3
     test_lugconfig = LugConfig("test")
+    print(vars(test_lugconfig))
     forces = LoadCase(0, 0, -44.818, 1, 600, 0)
     pos_holes = [[0.02, 0], [-0.02, 0]]
     backplate = BackplatePins(pos_holes, test_lugconfig)

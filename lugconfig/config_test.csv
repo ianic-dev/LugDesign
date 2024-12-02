@@ -1,8 +1,8 @@
 ,Values (all in base SI units)
-pin_diameter,0.5
-bolt_diameter,2
-inter_flange_width,1
-flange_thickness,1
-flange_height,1
-base_thickness,1
-spacecraft_thickness,1
+pin_diameter,0.005
+bolt_diameter,0.004
+inter_flange_width,0.01
+flange_thickness,0.0012
+flange_height,0.01
+base_thickness,0.0012
+spacecraft_thickness,0.0012

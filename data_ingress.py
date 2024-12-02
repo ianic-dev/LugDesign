@@ -79,7 +79,7 @@ class LugConfig:
         or all values for the config specified as float.
         '''
         if isinstance(d1, str):
-            (d1, d2, h, w, t1, t2, t3) = self.from_csv(d1)
+            (d1, d2, h, t1, w, t2, t3) = self.from_csv(d1)
         self.pin_diameter = d1
         self.bolt_diameter = d2
         self.inter_flange_width = h
