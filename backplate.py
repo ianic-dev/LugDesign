@@ -28,7 +28,7 @@ def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase
 
     # bearing check for backplate
     print("\nBEARING CHECK FOR BACKPLATE")
-    print(backplate.bearing_check(xz_forces, lugconfig, "lug", lugmaterial.yield_stress))
+    backplate.bearing_check(xz_forces, lugconfig, "lug", lugmaterial.yield_stress)
 
     # bearing check for vehicle plate
     print("\nBEARING CHECK FOR VEHICLE")

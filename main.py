@@ -23,6 +23,7 @@ if __name__ == '__main__':
     delta_T_min = -120
 
     lug_material = MaterialProperties("2014-T6")
+    print(vars(lug_material))
     sc_material = MaterialProperties("spacecraft")
     fst_material = MaterialProperties("fastener")
 
