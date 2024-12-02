@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     forces.yz_plane_load(lug_spacing)
 
-    flange_safety_margin = evaluate_flange(test_lugconfig, lug_material, forces)
+    flange_safety_margin = evaluate_flange(test_lugconfig, lug_material, forces, True)
 
     backplate, xz_forces = evaluate_backplate(pos_holes, test_lugconfig, forces, fastener, lug_material, sc_material)
 

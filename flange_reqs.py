@@ -63,26 +63,27 @@ def transverse_load_yield(lugconfig: LugConfig, material: MaterialProperties) ->
     return yield_transverse_load
 
 
-def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase: LoadCase) -> float:
-    print("==== FLANGE EVALUATION ====\n")
+def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase: LoadCase, do_print: bool=False) -> float:
     safety_margin = 0
 
     tension_ultimate_load = net_section_tension(lugconfig, material)
-    print("Net section tension ultimate load =", tension_ultimate_load)
 
     shear_out_ultimate_load = shear_out_bearing_ultimate(lugconfig, material)
-    print("Shear-bearing ultimate load =", shear_out_ultimate_load)
 
     transverse_ultimate_load = transverse_load_ultimate(lugconfig, material)
-    print("Transverse ultimate load =", transverse_ultimate_load)
 
     axial_ratio = abs(loadcase.y_resultant) / \
         min(tension_ultimate_load, shear_out_ultimate_load)
-    print("Axial actual/maximum load ratio =", axial_ratio)
 
     transverse_ratio = abs(loadcase.force_z)/transverse_ultimate_load
-    print("Transverse actual/maximum load ratio =", transverse_ratio)
 
     safety_margin = 1/((axial_ratio**1.6 + transverse_ratio**1.6)**0.625) - 1
-    print("Final oblique margin of safety =", safety_margin)
+    if do_print:
+        print("==== FLANGE EVALUATION ====\n")
+        print("Net section tension ultimate load =", tension_ultimate_load)
+        print("Shear-bearing ultimate load =", shear_out_ultimate_load)
+        print("Transverse ultimate load =", transverse_ultimate_load)
+        print("Axial actual/maximum load ratio =", axial_ratio)
+        print("Transverse actual/maximum load ratio =", transverse_ratio)
+        print("Final oblique margin of safety =", safety_margin, "\n")
     return safety_margin
