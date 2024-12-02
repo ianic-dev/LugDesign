@@ -97,7 +97,7 @@ def stress_conc_factor_kt(flange_height: float, pin_diameter, curve_number: int)
         y3 = 0.12
         e3 = 0.8
         s3 = 0.2
-    elif curve_number == 6:
+    elif curve_number == 7:
         y0 = 0.67
         x1 = 2
         y1 = 0.58
@@ -108,7 +108,7 @@ def stress_conc_factor_kt(flange_height: float, pin_diameter, curve_number: int)
         e2 = 1
         s2 = 1
         x3 = 5
-        y3 = 0.32
+        y3 = 0.34
         e3 = 1.1
         s3 = 0.2
     else:

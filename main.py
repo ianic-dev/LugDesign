@@ -2,6 +2,7 @@
 from data_ingress import LoadCase, MaterialProperties, LugConfig, FastenerConfig
 from backplate import BackplatePins, evaluate_backplate, evaluate_thermal
 from flange_reqs import evaluate_flange
+from weight_calcs import lug_mass
 import fastener as fst
 # change
 
@@ -14,18 +15,20 @@ if __name__ == '__main__':
     # define all your variables here
     lug_spacing = 1.4
     test_lugconfig = LugConfig("iter1")
-    print("lugconfig:", vars(test_lugconfig))
+    # print("lugconfig:", vars(test_lugconfig))
     forces = LoadCase(0.005, 125.489, 0, 0, 306, 0.019)
     pos_holes = [[0.02, 0], [-0.02, 0]]
     backplate = BackplatePins(pos_holes, test_lugconfig)
-    fastener = FastenerConfig(test_lugconfig, 0.0112, 0.019, 0.019)
+    fastener = FastenerConfig(test_lugconfig, 0.0112, 0.009, 0.009)
     delta_T_max = 95
     delta_T_min = -120
 
     lug_material = MaterialProperties("7075-T6")
-    print("lug material", vars(lug_material))
+    # print("lug material", vars(lug_material))
     sc_material = MaterialProperties("7075-T6")
     fst_material = MaterialProperties("7075-T6")
+
+    print("mass is", lug_mass(lug_material, test_lugconfig, fastener, backplate))
 
     forces.yz_plane_load(lug_spacing)
 
@@ -34,14 +37,6 @@ if __name__ == '__main__':
     backplate, xz_forces = evaluate_backplate(pos_holes, test_lugconfig, forces, fastener, lug_material, sc_material)
 
     evaluate_thermal(backplate, test_lugconfig, lug_material, sc_material, fst_material, fastener, xz_forces, delta_T_max)
-
-    # print(delta_T_max)
-    # print(young_modul_fastener)
-    # print(area_fastener)
-    # print(area_fastener)
-    # print(phi_backplate)
-    # print(thermal_load_backplate_maxT)
-
 
 
 

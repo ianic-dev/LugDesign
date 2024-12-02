@@ -6,3 +6,4 @@ ismetal,TRUE
 ultimate_tensile_str,4.27E+08
 axial_curve_number,4
 transverse_curve_number,12
+thermal_coeff,23e-6

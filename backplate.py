@@ -10,13 +10,13 @@ def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase
     cg = backplate.compute_cg(lugconfig)
     # print(cg)
 
-    print("\nXZ FORCES FOR HOLES")
+    # print("\nXZ FORCES FOR HOLES")
     xz_forces = backplate.compute_xz_hole_force(lugconfig, loadcase)
-    print(xz_forces)
+    # print(xz_forces)
 
-    print("\nY FORCES FOR HOLES")
+    # print("\nY FORCES FOR HOLES")
     y_forces = backplate.compute_y_hole_force(lugconfig, loadcase)
-    print(y_forces)
+    # print(y_forces)
 
     # pull out check for backplate
     print("\nPULL OUT CHECK FOR BACKPLATE")
@@ -45,7 +45,7 @@ class BackplatePins:
 
     def __init__(self, pos_holes, lugconfig: LugConfig):
         self.n = len(pos_holes)
-        self.pos_holes = pos_holes
+        self.pos_holes: list[list[int]] = pos_holes
 
         self.cg = self.compute_cg(lugconfig)
 
@@ -116,7 +116,7 @@ class BackplatePins:
                   "and Von Mises stress is:", (m.sqrt(3 * tau**2)))
             if m.sqrt(3 * tau**2) >= (0.9*tau_allowable):
                 print("Pullout stress exceeded at hole:", i)
-            print("Safety factor is: ", ((tau_allowable/m.sqrt(3 * tau**2))-1))
+            print("Safety margin is: ", ((tau_allowable/m.sqrt(3 * tau**2))-1))
 
     def bearing_check(self, xz_forces, lugconfig: LugConfig, plate: str, sigma_allowable):
         sigma_allowable = float(sigma_allowable)
@@ -133,7 +133,7 @@ class BackplatePins:
             print("The bearing stress at hole:", i, "is", sigma)
             if abs(sigma) >= 0.9 * sigma_allowable:
                 print("Bearing stress exceeded at hole: ", i)
-            print("Safety factor is:", ((sigma_allowable/sigma)-1))
+            print("Safety margin is:", ((sigma_allowable/sigma)-1))
 
     def bearing_check_thermal_included(self, xz_forces, lugconfig: LugConfig, thickness, sigma_allowable, thermal_force):
         sigma_allowable = float(sigma_allowable)
@@ -143,7 +143,7 @@ class BackplatePins:
             print("The bearing stress at hole:", i, "is", sigma)
             if abs(sigma) >= 0.9 * sigma_allowable:
                 print("Bearing stress exceeded at hole:", i)
-            print("Safety factor is:", ((sigma_allowable/sigma)-1))
+            print("Safety margin is:", ((sigma_allowable/sigma)-1))
 
 
 def evaluate_thermal(backplate: BackplatePins, lugconfig: LugConfig, lug_material: MaterialProperties, sc_material: MaterialProperties, fst_material: MaterialProperties, fastener: FastenerConfig, xz_forces, delta_T_max):

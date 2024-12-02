@@ -7,6 +7,7 @@ spec_safety_margin = 0.15
 
 def net_section_tension(lugconfig: LugConfig, material: MaterialProperties) -> float:
     ultimate_tension_load_ptu = 0
+    print(material.axial_curve_number)
     kt: float = fns.stress_conc_factor_kt(
         lugconfig.flange_height, lugconfig.pin_diameter, material.axial_curve_number)
     tension_area: float = (lugconfig.flange_height -
