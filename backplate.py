@@ -20,11 +20,11 @@ def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase
 
     # pull out check for backplate
     print("\nPULL OUT CHECK FOR BACKPLATE")
-    backplate.pull_out_check(y_forces, lugconfig.base_thickness, fastener.head_diam, lugmaterial.yield_stress)
+    backplate.pull_out_check(y_forces, lugconfig.base_thickness, fastener.head_diam, lugmaterial.yield_stress,lugconfig.bolt_diameter)
 
     # pull out check for vehicle plate
     print("\nPULL OUT CHECK FOR VEHICLE")
-    backplate.pull_out_check(y_forces, lugconfig.spacecraft_thickness, fastener.butt_diam, sc_material.yield_stress)
+    backplate.pull_out_check(y_forces, lugconfig.spacecraft_thickness, fastener.butt_diam, sc_material.yield_stress,lugconfig.bolt_diameter)
 
     # bearing check for backplate
     print("\nBEARING CHECK FOR BACKPLATE")
@@ -107,16 +107,18 @@ class BackplatePins:
             y_forces.append(fy)
         return y_forces
 
-    def pull_out_check(self, y_forces: list[float], thickness: float, head_diam: float, tau_allowable: float):
+    def pull_out_check(self, y_forces: list[float], thickness: float, head_diam: float, tau_allowable: float,bolt_diam: float):
         tau_allowable = float(tau_allowable)
         for i in range(len(self.pos_holes)):
             # print("Y force:", y_forces[i], "head diam:", head_diam, "thickness:", thickness)
             tau = (y_forces[i] / (m.pi * head_diam * thickness))
+            sigma = (y_forces[i]/(0.25*m.pi*(head_diam**2-bolt_diam**2)))
             print("The pullout stress at hole:", i, "is", tau,
-                  "and Von Mises stress is:", (m.sqrt(3 * tau**2)))
-            if m.sqrt(3 * tau**2) >= (0.9*tau_allowable):
+                  "and Von Mises stress is:", (m.sqrt((3 * tau**2)+sigma**2)))
+            if (m.sqrt((3 * tau**2)+sigma**2)) >= (0.9*tau_allowable):
                 print("Pullout stress exceeded at hole:", i)
-            print("Safety margin is: ", ((tau_allowable/m.sqrt(3 * tau**2))-1))
+            print("Safety factor is: ", ((tau_allowable/m.sqrt((3 * tau**2)+sigma**2))-1))
+            print(sigma**2)
 
     def bearing_check(self, xz_forces, lugconfig: LugConfig, plate: str, sigma_allowable):
         sigma_allowable = float(sigma_allowable)
