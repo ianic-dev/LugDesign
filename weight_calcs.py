@@ -8,8 +8,6 @@ def lug_mass(material: MaterialProperties, lugconfig: LugConfig, fst: FastenerCo
     for pos in backplate.pos_holes:
         if pos[0] > backplate_width:
             backplate_width = pos[0]
-        print("pos", pos)
-        print("width", backplate_width)
     backplate_width = max(abs(backplate.pos_holes[1][1]), backplate_width)
     backplate_width += 1.5 * lugconfig.bolt_diameter  # edge margin
     backplate_width *= 2

@@ -50,7 +50,6 @@ def transverse_load_ultimate(lugconfig: LugConfig, material: MaterialProperties)
     average_area = 6/average_area
     bearing_area = lugconfig.pin_diameter * lugconfig.flange_thickness
     kt_x = average_area/bearing_area  # x-axis value in ktu graph
-    print("average area", average_area, "bearing area", bearing_area)
     print("kty vals", kt_x, material.transverse_curve_number)
     ktu = 0.3  # fns.transverse_ktu(kt_x, material.transverse_curve_n)
     ultimate_transverse_load = ktu * bearing_area * material.ultimate_tensile_str
@@ -82,9 +81,7 @@ def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase
     netsectens_MS = tension_ultimate_load/loadcase.y_resultant - 1
 
     shearout_yield = shear_out_bearing_yield(lugconfig, material)
-    print("\n SHEAROUT YIELD LOAD", shearout_yield, "\n")
     shearout_yield_ratio = abs(loadcase.y_resultant)/shearout_yield
-    print("shearout_yield_max_load:", shearout_yield, "ratio: ", shearout_yield_ratio)
 
     transverse_yield = transverse_load_yield(lugconfig, material)
     transverse_yield_ratio = abs(loadcase.force_z)/transverse_yield
@@ -103,13 +100,13 @@ def evaluate_flange(lugconfig: LugConfig, material: MaterialProperties, loadcase
         print("\n==== FLANGE EVALUATION ====\n")
         print("Net section tension ultimate load =", tension_ultimate_load)
         print("Net section tension margin safety =", netsectens_MS)
-        print("Shear-bearing ultimate load =", shear_out_ultimate_load)
-        print("Transverse ultimate load =", transverse_ultimate_load)
-        print("Axial actual/maximum load ratio =", axial_ratio)
-        print("Transverse actual/maximum load ratio =", transverse_ratio)
-        print("Shearout yield load =", shearout_yield)
+        # print("Shear-bearing ultimate load =", shear_out_ultimate_load)
+        # print("Transverse ultimate load =", transverse_ultimate_load)
+        # print("Axial actual/maximum load ratio =", axial_ratio)
+        # print("Transverse actual/maximum load ratio =", transverse_ratio)
+        print("\nShearout yield load =", shearout_yield)
         print("Shearout yield margin of safety =", 1/(shearout_yield_ratio)-1)
-        print("Transverse yield load =", transverse_yield)
+        print("\nTransverse yield load =", transverse_yield)
         print("Transverse yield margin of safety =", 1/(transverse_yield_ratio)-1)
-        print("Final oblique margin of safety =", safety_margin, "\n")
+        print("\nFinal oblique margin of safety =", safety_margin, "\n")
     return safety_margin

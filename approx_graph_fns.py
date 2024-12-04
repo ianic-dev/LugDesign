@@ -190,5 +190,5 @@ def shear_bearing_efficiency_kbry(flange_height: float, pin_diameter: float, fla
         kbry = shear_bearing_kbry_2(e_over_d, limitval, t_over_d)
     else:
         raise ValueError("e/D must be at least 0.5")
-    print("e_over_d", e_over_d, "t_over_d", t_over_d, "xstart", e_over_d_start, "kbry: ", kbry)
+    # print("e_over_d", e_over_d, "t_over_d", t_over_d, "xstart", e_over_d_start, "kbry: ", kbry)
     return kbry

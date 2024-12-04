@@ -7,9 +7,9 @@ import numpy as np
 def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase, fastener: FastenerConfig, lugmaterial: MaterialProperties, sc_material: MaterialProperties):
     backplate = BackplatePins(pos_holes, lugconfig)
 
-    print("\nCG LOCATION OF HOLES")
+    # print("\nCG LOCATION OF HOLES")
     cg = backplate.compute_cg(lugconfig)
-    print(cg)
+    # print(cg)
 
     # print("\nXZ FORCES FOR HOLES")
     xz_forces = backplate.compute_xz_hole_force(lugconfig, loadcase)
@@ -119,7 +119,6 @@ class BackplatePins:
             if (m.sqrt((3 * tau**2)+sigma**2)) >= (0.9*tau_allowable):
                 print("Pullout stress exceeded at hole:", i)
             print("Safety factor is: ", ((tau_allowable/m.sqrt((3 * tau**2)+sigma**2))-1))
-            print(sigma**2)
 
     def bearing_check(self, xz_forces, lugconfig: LugConfig, plate: str, sigma_allowable):
         sigma_allowable = float(sigma_allowable)

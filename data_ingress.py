@@ -28,7 +28,10 @@ class MaterialProperties:
             if str(material[i]).upper() == "TRUE":
                 material[i] = True
             else:
-                material[i] = float(material[i])
+                try:
+                    material[i] = float(material[i])
+                except:
+                    print("here's the string")
         return material
 
     def to_csv(self, name: str = "unnamed") -> None:
@@ -65,7 +68,13 @@ class LugConfig:
         lugconfig = [config[0, 1], config[1, 1], config[2, 1],
                      config[3, 1], config[4, 1], config[5, 1], config[6, 1], config[7, 1]]
         for i in range(len(lugconfig)):
-            lugconfig[i] = float(lugconfig[i])
+            if str(lugconfig[i]).upper() == "TRUE":
+                lugconfig[i] = True
+            else:
+                try:
+                    lugconfig[i] = float(lugconfig[i])
+                except:
+                    print("material:", lugconfig[i])
         return lugconfig
 
     def to_csv(self, name: str = "unnamed") -> None:

@@ -5,10 +5,6 @@ from backplate import BackplatePins, evaluate_backplate, evaluate_thermal
 from flange_reqs import evaluate_flange
 from weight_calcs import lug_mass
 import fastener as fst
-# change
-
-def print_hi(name):
-    print(f'Hi, {name}')
 
 
 if __name__ == '__main__':
@@ -24,11 +20,13 @@ if __name__ == '__main__':
     print("fastener", vars(fastener))
     delta_T_max = 95
     delta_T_min = -120
+    
 
-    lug_material = MaterialProperties("2014-T6")
-    # print("lug material", vars(lug_material))
+    lug_material = MaterialProperties(test_lugconfig.material)
     sc_material = MaterialProperties("7075-T6")
-    fst_material = MaterialProperties("7075-T6")
+    fstmat = "7075-T6"
+    print("fastener material:", fstmat)
+    fst_material = MaterialProperties(fstmat)
 
     print("mass is", lug_mass(lug_material, test_lugconfig, fastener, backplate))
 
