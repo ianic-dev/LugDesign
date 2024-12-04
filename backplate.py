@@ -132,6 +132,7 @@ class BackplatePins:
 
         for i in range(len(self.pos_holes)):
             p = m.sqrt(xz_forces[i][0]**2 + xz_forces[i][1]**2)
+            print(p, "p force")
             sigma = p / (lugconfig.bolt_diameter * thickness)
             print("The bearing stress at hole:", i, "is", sigma)
             if abs(sigma) >= 0.9 * sigma_allowable:

@@ -2,12 +2,12 @@ import math as m
 
 class LoadCase:
     def __init__(self, f_x: float, m_x: float, f_y: float, m_y: float, f_z: float, m_z: float) -> None:
-        self.force_x = f_x  # transverse load aligned with pin axis
+        self.force_x = f_x/2  # transverse load aligned with pin axis
         self.moment_x = m_x  # not carried directly by lug, moment affecting yz plane loads
-        self.force_y = f_y  # force aligned with solar panel length axis
-        self.moment_y = m_y  # torque around solar panel length axis
-        self.force_z = f_z  # vertical force, aligned with thrust direction
-        self.moment_z = m_z  # moment around thrust vector axis
+        self.force_y = f_y/2  # force aligned with solar panel length axis
+        self.moment_y = m_y/2  # torque around solar panel length axis
+        self.force_z = f_z/2  # vertical force, aligned with thrust direction
+        self.moment_z = m_z/2  # moment around thrust vector axis
 #        self.yz_resultant = "N/A"  # not assigned yet
         self.y_resultant = "guh"
 
@@ -32,8 +32,8 @@ class LoadCase:
 
 def loadcase_calc(angle: float, time: float, panel_mass: float) -> LoadCase:
     angle = m.radians(angle)
-    launch_g_vert = 6
-    launch_g_side = 2
+    launch_g_vert = 8.5*1.25*1.5
+    launch_g_side = 3*1.25
     panel_cg_radius = 6.056
     panel_length = 9.089
     panel_height = 1.4

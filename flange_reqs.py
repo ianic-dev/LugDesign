@@ -45,11 +45,14 @@ def bushing_yield(lugconfig: LugConfig, bushing_material_compressivie_yield, bus
 
 def transverse_load_ultimate(lugconfig: LugConfig, material: MaterialProperties) -> float:
     ultimate_transverse_load = 0
-    average_area = 6/(4/((lugconfig.flange_height/2 - lugconfig.pin_diameter * m.sin(m.radians(45))) *
-                      lugconfig.flange_thickness) + 2/((lugconfig.flange_height-lugconfig.pin_diameter)*lugconfig.flange_thickness/2))
+    average_area = 4/((lugconfig.flange_height/2 - lugconfig.pin_diameter *m.sin(m.radians(45))/2) * lugconfig.flange_thickness)
+    average_area += 2/((lugconfig.flange_height - lugconfig.pin_diameter)*lugconfig.flange_thickness/2)
+    average_area = 6/average_area
     bearing_area = lugconfig.pin_diameter * lugconfig.flange_thickness
     kt_x = average_area/bearing_area  # x-axis value in ktu graph
-    ktu = 0.5  # fns.transverse_ktu(kt_x, material.transverse_curve_n)
+    print("average area", average_area, "bearing area", bearing_area)
+    print("kty vals", kt_x, material.transverse_curve_number)
+    ktu = 0.35  # fns.transverse_ktu(kt_x, material.transverse_curve_n)
     ultimate_transverse_load = ktu * bearing_area * material.ultimate_tensile_str
     return ultimate_transverse_load
 
@@ -60,6 +63,7 @@ def transverse_load_yield(lugconfig: LugConfig, material: MaterialProperties) ->
                       lugconfig.flange_thickness) + 2/((lugconfig.flange_height-lugconfig.pin_diameter)*lugconfig.flange_thickness/2))
     bearing_area = lugconfig.pin_diameter * lugconfig.flange_thickness
     kt_x = average_area/bearing_area  # x-axis value in ktu graph
+    print("kty vals", kt_x, material.transverse_curve_number)
     kty = 0.5  # fns.transverse_kty(kt_x, material.transverse_curve_n)
     yield_transverse_load = kty * bearing_area * material.yield_stress
     return yield_transverse_load
