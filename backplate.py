@@ -1,4 +1,5 @@
-from data_ingress import LugConfig, LoadCase, FastenerConfig, MaterialProperties
+from data_ingress import LugConfig, FastenerConfig, MaterialProperties
+from loadcase import LoadCase
 import fastener as fst
 import math as m
 import numpy as np

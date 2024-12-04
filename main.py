@@ -1,5 +1,6 @@
 #!/usr/bin/python
-from data_ingress import LoadCase, MaterialProperties, LugConfig, FastenerConfig
+from data_ingress import MaterialProperties, LugConfig, FastenerConfig
+from loadcase import LoadCase, loadcase_calc
 from backplate import BackplatePins, evaluate_backplate, evaluate_thermal
 from flange_reqs import evaluate_flange
 from weight_calcs import lug_mass
@@ -16,7 +17,7 @@ if __name__ == '__main__':
     lug_spacing = 1.4
     test_lugconfig = LugConfig("iter1")
     # print("lugconfig:", vars(test_lugconfig))
-    forces = LoadCase(0.005, 125.489, 0, 0, 306, 0.019)
+    forces = loadcase_calc(90, 180, 5.2)
     print("lugconfig:", vars(test_lugconfig))
     pos_holes = [[0.02, 0], [-0.02, 0]]
     backplate = BackplatePins(pos_holes, test_lugconfig)

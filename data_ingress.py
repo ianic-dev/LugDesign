@@ -4,36 +4,6 @@ import numpy as np
 from pathlib import Path
 
 
-class LoadCase:
-    def __init__(self, f_x: float, m_x: float, f_y: float, m_y: float, f_z: float, m_z: float) -> None:
-        self.force_x = f_x  # transverse load aligned with pin axis
-        self.moment_x = m_x  # not carried directly by lug, moment affecting yz plane loads
-        self.force_y = f_y  # force aligned with solar panel length axis
-        self.moment_y = m_y  # torque around solar panel length axis
-        self.force_z = f_z  # vertical force, aligned with thrust direction
-        self.moment_z = m_z  # moment around thrust vector axis
-#        self.yz_resultant = "N/A"  # not assigned yet
-        self.y_resultant = "guh"
-
-    def yz_plane_load(self, vert_spacing: float) -> float:
-        moment_induced_y_load = self.moment_x/vert_spacing
-        self.y_resultant = moment_induced_y_load + self.force_y
-        total_y_load = moment_induced_y_load + self.force_y
-        self.yz_resultant = m.sqrt(total_y_load**2 + self.force_z**2)
-        # absolute value of either "F1" in the diagram
-        return (self.yz_resultant)
-
-    @property
-    def y_resultant(self) -> float:
-        if isinstance(self._y_resultant, str):
-            raise RuntimeError(
-                "the yz_plane_load function needs to be called at least once before accessing this field")
-        return self._y_resultant
-
-    @y_resultant.setter
-    def y_resultant(self, value):
-        self._y_resultant = value
-
 
 class MaterialProperties:
     def __init__(self, density, elasticity_modulus: float = 0, yield_stress: float = 0, metal: bool = True, ultimate_stress: float = 0, curve_n: float = 0, transverse_n: float = 0, thermal_coeff: float = 0) -> None:

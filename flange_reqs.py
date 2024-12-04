@@ -1,4 +1,5 @@
-from data_ingress import LoadCase, MaterialProperties, LugConfig
+from data_ingress import MaterialProperties, LugConfig
+from loadcase import LoadCase
 import approx_graph_fns as fns
 import math as m
 
