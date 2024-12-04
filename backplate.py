@@ -7,9 +7,9 @@ import numpy as np
 def evaluate_backplate(pos_holes: list, lugconfig: LugConfig, loadcase: LoadCase, fastener: FastenerConfig, lugmaterial: MaterialProperties, sc_material: MaterialProperties):
     backplate = BackplatePins(pos_holes, lugconfig)
 
-    # print("\nCG LOCATION OF HOLES")
+    print("\nCG LOCATION OF HOLES")
     cg = backplate.compute_cg(lugconfig)
-    # print(cg)
+    print(cg)
 
     # print("\nXZ FORCES FOR HOLES")
     xz_forces = backplate.compute_xz_hole_force(lugconfig, loadcase)
