@@ -51,7 +51,8 @@ def transverse_load_ultimate(lugconfig: LugConfig, material: MaterialProperties)
     bearing_area = lugconfig.pin_diameter * lugconfig.flange_thickness
     kt_x = average_area/bearing_area  # x-axis value in ktu graph
     print("kty vals", kt_x, material.transverse_curve_number)
-    ktu = 0.3  # fns.transverse_ktu(kt_x, material.transverse_curve_n)
+    ktu = float(input("ktu"))
+    # ktu = 0.13 # fns.transverse_ktu(kt_x, material.transverse_curve_n)
     ultimate_transverse_load = ktu * bearing_area * material.ultimate_tensile_str
     return ultimate_transverse_load
 
@@ -64,7 +65,8 @@ def transverse_load_yield(lugconfig: LugConfig, material: MaterialProperties) ->
     bearing_area = lugconfig.pin_diameter * lugconfig.flange_thickness
     kt_x = average_area/bearing_area  # x-axis value in ktu graph
     print("kty vals", kt_x, material.transverse_curve_number)
-    kty = 0.3  # fns.transverse_kty(kt_x, material.transverse_curve_n)
+    kty = float(input("ktu"))
+    # kty = 0.13  # fns.transverse_kty(kt_x, material.transverse_curve_n)
     yield_transverse_load = kty * bearing_area * material.yield_stress
     return yield_transverse_load
 

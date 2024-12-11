@@ -114,6 +114,7 @@ class BackplatePins:
             # print("Y force:", y_forces[i], "head diam:", head_diam, "thickness:", thickness)
             tau = (y_forces[i] / (m.pi * head_diam * thickness))
             sigma = (y_forces[i]/(0.25*m.pi*(head_diam**2-bolt_diam**2)))
+            print("pullout normal stress: ", sigma)
             print("The pullout stress at hole:", i, "is", tau,
                   "and Von Mises stress is:", (m.sqrt((3 * tau**2)+sigma**2)))
             if (m.sqrt((3 * tau**2)+sigma**2)) >= (0.9*tau_allowable):
@@ -139,14 +140,16 @@ class BackplatePins:
             print("Safety margin is:", ((sigma_allowable/sigma)-1))
 
     def bearing_check_thermal_included(self, xz_forces, lugconfig: LugConfig, thickness, sigma_allowable, thermal_force):
+        print(thermal_force)
         sigma_allowable = float(sigma_allowable)
         for i in range(len(self.pos_holes)):
             p = m.sqrt(xz_forces[i][0]**2 + xz_forces[i][1]**2) + thermal_force
+            print("p is ", p)
             sigma = p / (lugconfig.bolt_diameter*thickness)
             print("The bearing stress at hole:", i, "is", sigma)
             if abs(sigma) >= 0.9 * sigma_allowable:
                 print("Bearing stress exceeded at hole:", i)
-            print("Safety margin is:", ((sigma_allowable/sigma)-1))
+            print("Safety margin is:", ((sigma_allowable/abs(sigma))-1))
 
 
 def evaluate_thermal(backplate: BackplatePins, lugconfig: LugConfig, lug_material: MaterialProperties, sc_material: MaterialProperties, fst_material: MaterialProperties, fastener: FastenerConfig, xz_forces, delta_T_max):

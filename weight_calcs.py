@@ -20,7 +20,7 @@ def lug_mass(material: MaterialProperties, lugconfig: LugConfig, fst: FastenerCo
     backplate_height *= 2
 
     if backplate_height > lugconfig.flange_height:
-        raise ValueError("Too many bolt holes, the backplate is too tall for the flange")
+        print("Too many bolt holes, the backplate is too tall for the flange")
     elif backplate_height < lugconfig.flange_height:
         print("backplate constrained by flange")
         backplate_height = lugconfig.flange_height
@@ -50,3 +50,10 @@ def lug_mass(material: MaterialProperties, lugconfig: LugConfig, fst: FastenerCo
     mass = volume * density
     
     return mass
+
+def fastener_mass(fst: FastenerConfig, lug: LugConfig, posholes, mat: MaterialProperties):
+    mass = 0
+    mass += len(posholes)*mat.density*(lug.bolt_diameter**2 * m.pi * (fst.length+0.001))
+    print("fst mass:", mass)
+    return mass
+

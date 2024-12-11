@@ -60,6 +60,7 @@ def loadcase_calc(angle: float, time: float, panel_mass: float) -> LoadCase:
     m_z_m = f_x_m * (panel_length/2) + alpha * Izz
     f_y_m = panel_mass * panel_cg_radius * alpha**2
     m_y_m = 0
+    print("m_z", m_z)
 
     f_z = max(f_z, f_z_m)
     m_x = max(m_x, m_x_m)
@@ -68,5 +69,5 @@ def loadcase_calc(angle: float, time: float, panel_mass: float) -> LoadCase:
     f_y = max(f_y, f_y_m)
     m_y = max(m_y, m_y_m)
 
-    return LoadCase(f_x, m_x, f_y, m_y, f_z, m_y)
+    return LoadCase(f_x, m_x, f_y, m_y, f_z, m_z)
 
